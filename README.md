@@ -36,7 +36,7 @@ stateDiagram-v2
         dark_Mode --> Settings
         multi_Lang --> Settings
         ph_email_loc_contacts_pswd --> Settings
-        devices --> Settings
+        devices --> Personal
         car --> devices
         cameras --> devices
         motion --> devices
@@ -82,8 +82,58 @@ stateDiagram-v2
     class Notification green
 ```
 
+## work flow
+```mermaid
+
+sankey-beta
+
+%% source,target,value
+ Temp, Weather, 25
+ Flood, Weather, 25
+ Air, Weather, 25
+ Quake, Weather, 25
+ Weather, Gemini, 100
+ Smoke, Sensors, 25
+ Siren, Sensors, 25
+ break-in, Sensors, 25
+ moisture, Sensors, 25
+ Sensors, Gemini, 100
+ Gemini, Alert, 100
+ Cameras, Images, 20
+ Water Leaks, Images, 20
+ Sprinkler, Images, 20
+ Littering, Images, 20
+ Images, Gemini, 100
+```
+
+```mermaid
+
+sankey-beta
+%% source,target,value
+ Law Enforcement, Community, 20
+ Railroad Crossings, Community, 10
+ Intruder, Community, 10
+ Dog run, Community, 10
+ Large Gathering, Community, 20
+ Bridge Safety, Community, 10
+ Mail is here, Community, 10
+ Mail-in ballot, Community, 10
+ Community, Gemini, 100
+ Gemini, Alert, 100
+ Thanks giving, Goodies, 10
+ Recipe, Goodies, 10
+ Solar, Goodies, 10
+ Handyman, Goodies, 10
+ Referrals, Goodies, 10
+ garbage disposal, Goodies, 10
+ errands, Goodies, 10
+ flowers seeds, Goodies, 10
+ berries fruits, Goodies, 10
+ extra food, Goodies, 10
+ Goodies, Gemini, 100
+ Gemini, Alert, 100
+```
+
 ## TODO
-- process flow
 - UI/UX
-- Firebase Rules Doc
 - Google Location API
