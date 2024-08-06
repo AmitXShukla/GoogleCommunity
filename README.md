@@ -84,6 +84,11 @@ stateDiagram-v2
 
 ## work flow
 ```mermaid
+---
+config:
+  sankey:
+    showValues: false
+---
 
 sankey-beta
 
@@ -107,6 +112,11 @@ sankey-beta
 ```
 
 ```mermaid
+---
+config:
+  sankey:
+    showValues: false
+---
 
 sankey-beta
 %% source,target,value
