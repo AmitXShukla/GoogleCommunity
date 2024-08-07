@@ -97,18 +97,18 @@ sankey-beta
  Flood, Weather, 25
  Air, Weather, 25
  Quake, Weather, 25
- Weather, Gemini, 100
+ Weather, Gemini, 35
  Smoke, Sensors, 25
  Siren, Sensors, 25
  break-in, Sensors, 25
  moisture, Sensors, 25
- Sensors, Gemini, 100
+ Sensors, Gemini, 35
  Gemini, Alert, 100
  Cameras, Images, 20
  Water Leaks, Images, 20
  Sprinkler, Images, 20
  Littering, Images, 20
- Images, Gemini, 100
+ Images, Gemini, 30
 ```
 
 ```mermaid
