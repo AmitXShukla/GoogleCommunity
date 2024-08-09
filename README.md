@@ -145,5 +145,5 @@ sankey-beta
 ```
 
 ## TODO
-- UI/UX
-- Google Location API
+- Multilanguage
+- authentication guard on data pages

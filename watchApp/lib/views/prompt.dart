@@ -4,14 +4,14 @@ import '../shared/constants.dart';
 import '../blocs/validators.dart';
 
 // ignore: must_be_immutable
-class Community extends StatefulWidget {
-  static const routeName = '/community';
-  Community({super.key});
+class Prompt extends StatefulWidget {
+  static const routeName = '/prompt';
+  Prompt({super.key});
   @override
-  CommunityState createState() => CommunityState();
+  PromptState createState() => PromptState();
 }
 
-class CommunityState extends State<Community> {
+class PromptState extends State<Prompt> {
   bool isUserValid = false;
   final _formKey = GlobalKey<FormState>();
 
@@ -27,7 +27,7 @@ class CommunityState extends State<Community> {
     // );
     return Scaffold(
       appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.cCommunity,
+          title: Text("Prompt",
               style: cHeaderText)),
       // body: (isUserValid == true) ? userForm(context) : loginPage(context),
       // body: SingleChildScrollView(child: userForm(context)),
@@ -49,7 +49,7 @@ class CommunityState extends State<Community> {
         child: Center(
           child: Column(
             children: <Widget>[
-              Text("your local community", style: cHeaderText),
+              Text("ask Gemini", style: cHeaderText),
               const SizedBox(
                 width: 10,
                 height: 20,
@@ -72,8 +72,8 @@ class CommunityState extends State<Community> {
                       icon: const Icon(Icons.home),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16.0)),
-                      hintText: "Location",
-                      labelText: "community address",
+                      hintText: "prompt",
+                      labelText: "question Gemini",
                       // errorText: snapshot.error,
                     ),
                   )),
@@ -86,7 +86,7 @@ class CommunityState extends State<Community> {
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text(
-                          "You'll receive community alerts within 2 miles of this location.")));
+                          "Your prompts are stored in history for 7 days, please delete those anytime you want.")));
                 },
               ),
             ],

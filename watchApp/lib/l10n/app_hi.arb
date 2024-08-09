@@ -9,5 +9,19 @@
   "cCommunity" : "community hi",
   "cAboutUsContent1" : "Google Community Watch App is AI application which serves as a live alert app which reads all data, information, security alerts, local government danger alerts, warnings and mix with all neighborhood application including neighbors or community camera and other picture information shared.",
   "cAboutUsContent2" : "The Watch App's AI engine can process and analyze visual data from images, videos, and other sources to infer and identify security concerns, threats, or other critical information. It can then categorize this information as non-critical, alert-level, or critical, and automatically notify relevant community members through personalized alerts based on their specific interests and areas of concern",
-  "cAboutUsContent3" : "youtube.com/@amit.shukla"
+  "cAboutUsContent3" : "youtube.com/@amit.shukla",
+  "cAboutUsContent4" : "your data is only visible to you, it is not used for any other purpose such as AI training or marketing communication, Research etc.",
+  "cSettings" : "settings",
+  "cSettings1" : "update settings",
+  "cName1" : "Name *",
+  "cName2" : "name",
+  "cLogin" : "login",
+  "cEmailID": "username@domain.com",
+  "cEmailHint": "EmailID *",
+  "cEnterPassword": "enter password",
+  "cPassword": "Password",
+  "cSignGoogle": "Sign In with Google",
+  "cNAccount": "create new Account",
+  "cFPassword": "forgot password",
+  "cSignIn": "Sign In"
 }

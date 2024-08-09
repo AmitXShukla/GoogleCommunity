@@ -4,30 +4,22 @@ import '../shared/constants.dart';
 import '../blocs/validators.dart';
 
 // ignore: must_be_immutable
-class Community extends StatefulWidget {
-  static const routeName = '/community';
-  Community({super.key});
+class Device extends StatefulWidget {
+  static const routeName = '/device';
+  Device({super.key});
   @override
-  CommunityState createState() => CommunityState();
+  DeviceState createState() => DeviceState();
 }
 
-class CommunityState extends State<Community> {
+class DeviceState extends State<Device> {
   bool isUserValid = false;
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    // return Column(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         mainAxisAlignment: MainAxisAlignment.center,
-    //         children:
-    //         [
-    //           Text(AppLocalizations.of(context)!.cCommunity, style: cHeaderText,),
-    //         ]
-    // );
     return Scaffold(
       appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.cCommunity,
+          title: Text("Device",
               style: cHeaderText)),
       // body: (isUserValid == true) ? userForm(context) : loginPage(context),
       // body: SingleChildScrollView(child: userForm(context)),
@@ -49,44 +41,47 @@ class CommunityState extends State<Community> {
         child: Center(
           child: Column(
             children: <Widget>[
-              Text("your local community", style: cHeaderText),
-              const SizedBox(
-                width: 10,
-                height: 20,
-              ),
-              SizedBox(
-                  width: 300.0,
-                  // margin: const EdgeInsets.only(top: 25.0),
-                  child: TextFormField(
-                    // controller: _emailController,
-                    cursorColor: Colors.blueAccent,
-                    // keyboardType: TextInputType.emailAddress,
-                    maxLength: 50,
-                    obscureText: false,
-                    // onChanged: (value) => model.email = value,
-                    validator: (value) {
-                      return Validators().evalEmail(value!);
-                    },
-                    // onSaved: (value) => _email = value,
-                    decoration: InputDecoration(
-                      icon: const Icon(Icons.home),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16.0)),
-                      hintText: "Location",
-                      labelText: "community address",
-                      // errorText: snapshot.error,
-                    ),
-                  )),
-              SizedBox(
+              Row(
+                children: [
+                  Text("your local devices", style: cHeaderText),
+                  SizedBox(
                 width: 10,
               ),
               IconButton(
                 icon: const Icon(Icons.info),
-                tooltip: 'geo location',
+                tooltip: 'about device',
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text(
-                          "You'll receive community alerts within 2 miles of this location.")));
+                          "Your device data is fetch through your API provider. Please set up API to allow accessing your sensors.")));
+                },
+              ),
+                ],
+              ),
+              const SizedBox(
+                width: 10,
+                height: 20,
+              ),
+              ListTile(
+                title: Text("data"),
+                subtitle: Column(
+                  children: [
+                    Text("device type: Camera"),
+                    Text("mfg: Arlo"),
+                    Text("API: manual"),
+                    Text("license: ABC1234"),
+                    Text("description: "),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+                height: 5,
+              ),
+              IconButton(
+                icon: const Icon(Icons.delete, color: Colors.redAccent,),
+                tooltip: 'delete',
+                onPressed: () {
                 },
               ),
             ],

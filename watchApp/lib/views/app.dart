@@ -7,6 +7,16 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import './aboutus.dart';
 import './community.dart';
+import './settings.dart';
+import './signin.dart';
+import './signup.dart';
+import './media.dart';
+import './history.dart';
+import './device.dart';
+import './alert.dart';
+import './alertc.dart';
+import './prompt.dart';
+import '../blocs/validators.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -24,6 +34,7 @@ class _AppState extends State<App> {
   bool _isVisible = true;
   ThemeMode themeMode = ThemeMode.system;
   bool isBright = true;
+  final _formKey = GlobalKey<FormState>();
 
   FloatingActionButtonLocation get _fabLocation => _isVisible
       ? FloatingActionButtonLocation.endFloat
@@ -140,12 +151,73 @@ class _AppState extends State<App> {
             //   onChanged: _onShowFabChanged,
             // ),
             Padding(
-              padding: const EdgeInsets.all(18.0),
+              padding: const EdgeInsets.all(28.0),
               child: SizedBox(
                 width: 400,
                 height: 400,
                 child: SingleChildScrollView(
-                  child: Community(),
+                  // child: Community(),
+                  // child: Text("welcome"),
+                  child: Form(
+                    key: _formKey,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    onChanged: () => setState(() => null),
+                    child: SingleChildScrollView(
+                      child: Center(
+                        child: Column(
+                          children: <Widget>[
+                            const SizedBox(
+                              width: 10,
+                              height: 100,
+                            ),
+                            Text("ask Gemini", style: cHeaderText),
+                            const SizedBox(
+                              width: 10,
+                              height: 20,
+                            ),
+                            SizedBox(
+                                width: 300.0,
+                                // margin: const EdgeInsets.only(top: 25.0),
+                                child: TextFormField(
+                                  // controller: _emailController,
+                                  cursorColor: Colors.blueAccent,
+                                  // keyboardType: TextInputType.emailAddress,
+                                  maxLength: 300,
+                                  obscureText: false,
+                                  // onChanged: (value) => model.email = value,
+                                  validator: (value) {
+                                    return Validators().evalChar(value!);
+                                  },
+                                  // onSaved: (value) => _email = value,
+                                  decoration: InputDecoration(
+                                    icon: const Icon(Icons.search),
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(16.0)),
+                                    hintText: "prompt",
+                                    labelText: "question Gemini",
+                                    // errorText: snapshot.error,
+                                  ),
+                                )),
+                            // SizedBox(
+                            //   width: 10,
+                            // ),
+                            // IconButton(
+                            //   icon: const Icon(Icons.info),
+                            //   tooltip: 'geo location',
+                            //   onPressed: () {
+                            //     ScaffoldMessenger.of(context).showSnackBar(
+                            //         const SnackBar(
+                            //             content: Text(
+                            //                 "Your prompts are stored in history for 7 days, please delete those anytime you want.")));
+                            //   },
+                            // ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  // child: Image.asset("process.png"),
                 ),
               ),
             )
@@ -156,20 +228,20 @@ class _AppState extends State<App> {
             // ),
           ],
         ),
-        floatingActionButton: _showFab
-            ? FloatingActionButton(
-                onPressed: () => {
-                      Navigator.pushNamed(
-                      context,
-                      '/aboutus',
-                    )
-                  },
-                tooltip: "Gemini",
-                elevation: _isVisible ? 0.0 : null,
-                child: const Icon(Icons.question_answer),
-              )
-            : null,
-        floatingActionButtonLocation: _fabLocation,
+        // floatingActionButton: _showFab
+        //     ? FloatingActionButton(
+        //         onPressed: () => {
+        //               Navigator.pushNamed(
+        //               context,
+        //               '/prompt',
+        //             )
+        //           },
+        //         tooltip: "Gemini",
+        //         elevation: _isVisible ? 0.0 : null,
+        //         child: const Icon(Icons.question_answer),
+        //       )
+        //     : null,
+        // floatingActionButtonLocation: _fabLocation,
         bottomNavigationBar: BottomAppBar(
             isElevated: _isElevated,
             isVisible: _isVisible,
@@ -180,6 +252,15 @@ class _AppState extends State<App> {
         // '/': (context) => const LogIn(), //- can not set if home: ERPHomePage() is setup, only works with initiated route
         AboutUs.routeName: (context) => AboutUs(),
         Community.routeName: (context) => Community(),
+        Settings.routeName: (context) => Settings(),
+        SignIn.routeName: (context) => SignIn(),
+        SignUp.routeName: (context) => SignUp(),
+        Media.routeName: (context) => Media(),
+        History.routeName: (context) => History(),
+        Device.routeName: (context) => Device(),
+        Alert.routeName: (context) => Alert(),
+        CAlert.routeName: (context) => CAlert(),
+        Prompt.routeName: (context) => Prompt(),
       },
     );
   }
@@ -225,32 +306,56 @@ class BottomAppBarState extends State<BottomAppBar> {
             ),
             onSelected: (Menu item) {},
             itemBuilder: (BuildContext context) => <PopupMenuEntry<Menu>>[
-              const PopupMenuItem<Menu>(
+              PopupMenuItem<Menu>(
                 value: Menu.preview,
                 child: ListTile(
                   leading: Icon(Icons.book_online_rounded),
                   title: Text(cHistory),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/history',
+                    );
+                  },
                 ),
               ),
-              const PopupMenuItem<Menu>(
+              PopupMenuItem<Menu>(
                 value: Menu.share,
                 child: ListTile(
                   leading: Icon(Icons.photo),
                   title: Text(cMedia),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/media',
+                    );
+                  },
                 ),
               ),
-              const PopupMenuItem<Menu>(
+              PopupMenuItem<Menu>(
                 value: Menu.getLink,
                 child: ListTile(
                   leading: Icon(Icons.location_city),
                   title: Text(cCommunity),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/community',
+                    );
+                  },
                 ),
               ),
-              const PopupMenuItem<Menu>(
+              PopupMenuItem<Menu>(
                 value: Menu.getLink,
                 child: ListTile(
                   leading: Icon(Icons.device_hub),
                   title: Text(cDevices),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/device',
+                    );
+                  },
                 ),
               ),
               const PopupMenuDivider(),
@@ -313,19 +418,31 @@ class BottomAppBarState extends State<BottomAppBar> {
                   ),
                 ),
               ),
-              const PopupMenuItem<Menu>(
+              PopupMenuItem<Menu>(
                 value: Menu.download,
                 child: ListTile(
-                  leading: Icon(Icons.settings),
-                  title: Text(cSettings),
+                  leading: const Icon(Icons.settings),
+                  title: const Text(cSettings),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/settings',
+                    );
+                  },
                 ),
               ),
               const PopupMenuDivider(),
-              const PopupMenuItem<Menu>(
+              PopupMenuItem<Menu>(
                 value: Menu.download,
                 child: ListTile(
                   leading: Icon(Icons.login),
                   title: Text(cSignIn),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/signin',
+                    );
+                  },
                 ),
               ),
               const PopupMenuDivider(),
@@ -335,7 +452,7 @@ class BottomAppBarState extends State<BottomAppBar> {
                   leading: const Icon(Icons.info),
                   title: const Text(cAboutUs),
                   onTap: () => {
-                      Navigator.pushNamed(
+                    Navigator.pushNamed(
                       context,
                       '/aboutus',
                     )
@@ -345,12 +462,30 @@ class BottomAppBarState extends State<BottomAppBar> {
             ],
           ),
           IconButton(
-            tooltip: cHome,
+            tooltip: cPersonal,
             icon: const Icon(
-              Icons.home,
+              Icons.home_max_sharp,
+              color: Colors.deepOrangeAccent,
+            ),
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                '/alert',
+              );
+            },
+          ),
+          IconButton(
+            tooltip: cCommunity,
+            icon: const Icon(
+              Icons.notifications_active,
               color: Colors.blueAccent,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                '/calert',
+              );
+            },
           ),
           IconButton(
             tooltip: cSearch,
@@ -360,7 +495,12 @@ class BottomAppBarState extends State<BottomAppBar> {
           IconButton(
             tooltip: cBookmark,
             icon: const Icon(Icons.bookmarks),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                '/alert',
+              );
+            },
           ),
           Row(
             children: [
@@ -374,6 +514,21 @@ class BottomAppBarState extends State<BottomAppBar> {
               Text(
                 AppLocalizations.of(context)!.cAppTitle,
                 style: cHeaderText,
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              FloatingActionButton(
+                mini: true,
+                onPressed: () => {
+                  Navigator.pushNamed(
+                    context,
+                    '/prompt',
+                  )
+                },
+                tooltip: "Gemini",
+                elevation: 0.0,
+                child: const Icon(Icons.question_answer),
               )
             ],
           ),
