@@ -157,3 +157,5 @@ sankey-beta
 - Gemini: feedback, auto update RAG
 - Gemini: file upload (limit per user)
 - Community: auto complete to current GeoLocation | google Location API
+
+![preview](./banner.png)
