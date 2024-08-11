@@ -154,4 +154,4 @@ sankey-beta
 - Notification: push, email, Text, Emergency
 - Gemini: feedback, auto update RAG
 - Gemini: file upload (limit per user)
-- Community: auto reset to GeoLocation
+- Community: auto complete to current GeoLocation | google Location API

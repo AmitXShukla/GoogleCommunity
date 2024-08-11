@@ -8,11 +8,11 @@
         "prompt": "here is an alert image of home stats. Is my water faucet continuously dripping?"
     },
     {
-        "image": "sensors.png",
+        "image": "assets/images/sensors.png",
         "prompt": "here is an alert image of home stats. are noise levels look ok to you?"
     },
     {
-        "image": "pic_1.png",
+        "image": "assets/images/pic_1.png",
         "prompt": "here is an alert image of my garage camera, is this care you recongnize, check if any such car exists in our RAG database, also check community members car info to find any match?"
     },
     {
@@ -20,11 +20,11 @@
         "prompt": "here is an alert image of my garage camera, is this my mail man?"
     },
     {
-        "image": "pic_3.png",
+        "image": "assets/images/pic_3.png",
         "prompt": "here is an alert image of my garage camera, is this a garbage disposal truck and do you see my trash bins empty?"
     },
     {
-        "image": "pic_4.png",
+        "image": "assets/images/pic_4.png",
         "prompt": "here is an alert image of my garage camera, is this my garner just pulled in, are trash bin empty yet?"
     },
     {
@@ -36,7 +36,7 @@
         "prompt": "Received an Alert from Google Nestcam Garden Camera, is there any person who is just outside of boundyy, is the person appears to be jumping off the wall?"
     },
     {
-        "image": "hz_5.png",
+        "image": "assets/images/hz_5.png",
         "prompt": "Received an Alert from Community camera, do you see many people on railroad tracks, is it unsafe to be there?"
     },
     {
@@ -44,7 +44,7 @@
         "prompt": "Received an Alert from COmmunity camera, what's happening in this picture?"
     },
     {
-        "image": "hz_8.png",
+        "image": "assets/images/hz_8.png",
         "prompt": "Received an Alert from Community camera, do you see many people gathered, is it stampede conditions?"
     }
 ]

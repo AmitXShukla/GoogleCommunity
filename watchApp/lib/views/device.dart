@@ -15,7 +15,15 @@ class Device extends StatefulWidget {
 
 class DeviceState extends State<Device> {
   bool isUserValid = false;
-  static List<String> list = <String>['car', 'camera', 'motion', 'CO', 'license', 'temperature', 'flood'];
+  static List<String> list = <String>[
+    'car',
+    'camera',
+    'motion',
+    'CO',
+    'license',
+    'temperature',
+    'flood'
+  ];
   String dropdownValue = list.first;
   final _formKey = GlobalKey<FormState>();
   bool spinnerVisible = false;
@@ -25,12 +33,7 @@ class DeviceState extends State<Device> {
   String messageType = "";
   List results = [];
   var model = DeviceDataModel(
-      uid: '',
-      type: '',
-      mfg: '',
-      api: '',
-      license: '',
-      description: '');
+      uid: '', type: '', mfg: '', api: '', license: '', description: '');
   final TextEditingController _mfgController = TextEditingController();
   final TextEditingController _apiController = TextEditingController();
   final TextEditingController _licenseController = TextEditingController();
@@ -73,15 +76,18 @@ class DeviceState extends State<Device> {
   }
 
   void setData() async {
-toggleSpinner();
+    toggleSpinner();
     messageVisible = true;
     model.type = dropdownValue;
     await authBloc
         .setData('devices', model)
-        .then((res) => {showMessage(true, "success", AppLocalizations.of(context)!.cTxtSaved)})
+        .then((res) => {
+              showMessage(
+                  true, "success", AppLocalizations.of(context)!.cTxtSaved)
+            })
         .catchError((error) => {showMessage(true, "error", error.toString())});
     toggleSpinner();
- }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +132,8 @@ toggleSpinner();
                     height: 5,
                   ),
                   IconButton(
-                      icon: const Icon(Icons.arrow_back, color: Colors.blueAccent),
+                      icon: const Icon(Icons.arrow_back,
+                          color: Colors.blueAccent),
                       tooltip: 'back',
                       onPressed: () {
                         Navigator.pop(context);
@@ -137,7 +144,8 @@ toggleSpinner();
                 width: 10,
                 height: 20,
               ),
-              Text(AppLocalizations.of(context)!.cAddDevice, style: cHeaderText),
+              Text(AppLocalizations.of(context)!.cAddDevice,
+                  style: cHeaderText),
               DropdownButton<String>(
                 value: dropdownValue,
                 icon: const Icon(Icons.arrow_downward),
@@ -261,7 +269,7 @@ toggleSpinner();
                       // errorText: snapshot.error,
                     ),
                   )),
-                  Container(
+              Container(
                 margin: const EdgeInsets.only(top: 5.0),
               ),
               CustomSpinner(toggleSpinner: spinnerVisible, key: null),
@@ -300,6 +308,17 @@ toggleSpinner();
               ),
               label: Text(AppLocalizations.of(context)!.cTxtReLogin,
                   style: cErrorText)),
+          const SizedBox(width: 20, height: 50),
+          ElevatedButton(
+            child: Text(AppLocalizations.of(context)!.cBtnCancel),
+            // color: Colors.blue,
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                '/',
+              );
+            },
+          ),
         ],
       ),
     );

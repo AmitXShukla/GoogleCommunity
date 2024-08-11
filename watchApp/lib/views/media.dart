@@ -224,6 +224,17 @@ Widget showList(BuildContext context) {
               ),
               label: Text(AppLocalizations.of(context)!.cTxtReLogin,
                   style: cErrorText)),
+                  const SizedBox(width: 20, height: 50),
+          ElevatedButton(
+            child: Text(AppLocalizations.of(context)!.cBtnCancel),
+            // color: Colors.blue,
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                '/',
+              );
+            },
+          ),
         ],
       ),
     );

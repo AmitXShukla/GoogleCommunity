@@ -69,7 +69,7 @@ class SignInState extends State<SignIn> {
     toggleSpinner();
     String? userAuth;
     if (loginType == "Google") {
-//       userAuth = await authBloc.logInWithGoogle();
+       await authBloc.signInWithGoogle();
     } else {
       userAuth = await authBloc.loginWithEmail(model);
     }
@@ -92,33 +92,17 @@ class SignInState extends State<SignIn> {
     toggleSpinner();
     await authBloc.logout();
     loadAuthState();
-    // setState(() {
-    //   model.password = "";
-    //   _passwordController.clear();
-    //   _btnEnabled = false;
-    // });
-    // toggleSpinner();
-    // var val = await authBloc.logout();
-    // if (val == true) {
-    //   showMessage(true, "success", AppLocalizations.of(context)!.cMsg2);
-    //   setState(() => isUserValid = false);
-    //   navigateToUser();
-    // } else {
-    //   showMessage(true, "error", val.error!.message);
-    // }
     toggleSpinner();
   }
-
-  forgotPassword() async {
+    void forgotPassword() async {
     toggleSpinner();
-    // var val = await authBloc.forgotPassword(model.email);
-    // if (val.success == true) {
-    //   showMessage(true, "success",
-    //       AppLocalizations.of(context)!.cMsg3);
-    // } else {
-    //   showMessage(
-    //       true, "error", AppLocalizations.of(context)!.cMsg4);
-    // }
+    String? userAuth = await authBloc.resetPassword(model);
+    if (userAuth == "success") {
+      showMessage(
+          true, "success", AppLocalizations.of(context)!.cResetPasswordEmail);
+    } else {
+      showMessage(true, "error", userAuth);
+    }
     toggleSpinner();
   }
 

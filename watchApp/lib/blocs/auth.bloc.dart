@@ -1,13 +1,17 @@
 import 'package:commwatch/blocs/datamodel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
 CollectionReference settings =
     FirebaseFirestore.instance.collection('settings');
 CollectionReference history = FirebaseFirestore.instance.collection('history');
-CollectionReference community = FirebaseFirestore.instance.collection('community');
+CollectionReference community =
+    FirebaseFirestore.instance.collection('community');
 CollectionReference devices = FirebaseFirestore.instance.collection('devices');
+CollectionReference alerts = FirebaseFirestore.instance.collection('alerts');
+CollectionReference calerts = FirebaseFirestore.instance.collection('calerts');
 
 class AuthBloc extends Object {
   Future<bool> loadAuthState() async {
@@ -30,6 +34,34 @@ class AuthBloc extends Object {
     try {
       await auth.signInWithEmailAndPassword(
           email: model.email, password: model.password);
+    } on FirebaseAuthException catch (e) {
+      result = e.message;
+    }
+    return result;
+  }
+
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  Future<String?> resetPassword(model) async {
+    String? result = "success";
+    try {
+      await auth.sendPasswordResetEmail(email: model.email);
     } on FirebaseAuthException catch (e) {
       result = e.message;
     }
@@ -112,7 +144,7 @@ class AuthBloc extends Object {
     if (auth.currentUser != null) {
       if (coll == "history") {
         List docList = [];
-    List testNewList = [];
+        List testNewList = [];
         try {
           await history
               .where('uid', isEqualTo: auth.currentUser?.uid)
@@ -144,9 +176,43 @@ class AuthBloc extends Object {
           throw ('something is wrong');
         }
       }
+      if (coll == "alerts") {
+        List docList = [];
+        List testNewList = [];
+        try {
+          await alerts
+              .where('uid', isEqualTo: auth.currentUser?.uid)
+              .where('dttm',
+                  isLessThan: DateTime.now().add(new Duration(days: 20)))
+              .get()
+              .then((value) {
+            // print(value.docs.toList());
+
+            for (final child in value.docs) {
+              docList.add(child.id);
+            }
+          });
+
+          for (final index in docList) {
+            final docRef = alerts.doc(index);
+            testNewList.add(await docRef.get().then((DocumentSnapshot doc) {
+              // print(doc.data());
+              final docData = doc.data();
+              return docData;
+            }));
+          }
+
+          /* print(docList);
+          print(testNewList); */
+          return await testNewList;
+        } catch (e) {
+          print(e.toString());
+          throw ('something is wrong');
+        }
+      }
       if (coll == "devices") {
         List docListd = [];
-    List testNewListd = [];
+        List testNewListd = [];
         try {
           await devices
               .where('uid', isEqualTo: auth.currentUser?.uid)
@@ -190,6 +256,7 @@ class AuthBloc extends Object {
 
 final authBloc = AuthBloc();
 
+// google location API sample output
 // https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=YOUR_API_KEY
 
 // {

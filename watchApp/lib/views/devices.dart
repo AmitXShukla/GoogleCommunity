@@ -91,11 +91,11 @@ class DevicesState extends State<Devices> {
                       icon: const Icon(Icons.add, color: Colors.blueAccent),
                       tooltip: 'add device',
                       onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/device',
-                    );
-                  })
+                        Navigator.pushNamed(
+                          context,
+                          '/device',
+                        );
+                      })
                 ],
               ),
               const SizedBox(
@@ -159,7 +159,6 @@ class DevicesState extends State<Devices> {
                         Text(snapshot.data?[index]["api"] ?? "-"),
                         Text(snapshot.data?[index]["license"] ?? "-"),
                         Text(snapshot.data?[index]["description"] ?? "-"),
-                        
                       ],
                     );
                     /* return Text(snapshot.data?[index]["dttm"].seconds.toString() ?? "got null"); */
@@ -190,6 +189,17 @@ class DevicesState extends State<Devices> {
               ),
               label: Text(AppLocalizations.of(context)!.cTxtReLogin,
                   style: cErrorText)),
+          const SizedBox(width: 20, height: 50),
+          ElevatedButton(
+            child: Text(AppLocalizations.of(context)!.cBtnCancel),
+            // color: Colors.blue,
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                '/',
+              );
+            },
+          ),
         ],
       ),
     );

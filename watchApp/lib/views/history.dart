@@ -17,7 +17,7 @@ class HistoryState extends State<History> {
   bool isUserValid = false;
   final _formKey = GlobalKey<FormState>();
   bool spinnerVisible = false;
-  List results = [];
+//  List results = [];
 
   @override
   void initState() {
@@ -122,25 +122,6 @@ class HistoryState extends State<History> {
     );
   }
 
-  Widget loginPage(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          Chip(
-              avatar: const CircleAvatar(
-                backgroundColor: Colors.grey,
-                child: Icon(
-                  Icons.warning,
-                  color: Colors.red,
-                ),
-              ),
-              label: Text(AppLocalizations.of(context)!.cTxtReLogin,
-                  style: cErrorText)),
-        ],
-      ),
-    );
-  }
-
   Widget showList(BuildContext context) {
     return SingleChildScrollView(
       child: FutureBuilder(
@@ -216,6 +197,36 @@ class HistoryState extends State<History> {
               return const CircularProgressIndicator();
             }
           }),
+    );
+  }
+
+  Widget loginPage(BuildContext context) {
+    return Center(
+      child: Column(
+        children: [
+          Chip(
+              avatar: const CircleAvatar(
+                backgroundColor: Colors.grey,
+                child: Icon(
+                  Icons.warning,
+                  color: Colors.red,
+                ),
+              ),
+              label: Text(AppLocalizations.of(context)!.cTxtReLogin,
+                  style: cErrorText)),
+          const SizedBox(width: 20, height: 50),
+          ElevatedButton(
+            child: Text(AppLocalizations.of(context)!.cBtnCancel),
+            // color: Colors.blue,
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                '/',
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }

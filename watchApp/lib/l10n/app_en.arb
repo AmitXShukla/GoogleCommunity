@@ -52,5 +52,6 @@
   "cLicense1" : "License *",
   "cLicense2" : "registeration",
   "cDescr1" : "Description *",
-  "cDescr2" : "description"
+  "cDescr2" : "description",
+  "cResetPasswordEmail": "Your password reset email is send to your email."
 }

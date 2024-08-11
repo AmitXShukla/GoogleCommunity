@@ -17,7 +17,6 @@ import './device.dart';
 import './alert.dart';
 import './alertc.dart';
 import './prompt.dart';
-import '../blocs/validators.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -163,20 +162,26 @@ class _AppState extends State<App> {
                     key: _formKey,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     onChanged: () => setState(() => null),
-                    child: SingleChildScrollView(
+                    child: const SingleChildScrollView(
                       child: Center(
                         child: Column(
                           children: <Widget>[
                             const SizedBox(
                               width: 10,
-                              height: 100,
+                              height: 240,
                             ),
-                            Text("ask Gemini", style: cHeaderText),
+                            Text("community watch", style: cHeaderText),
                             const SizedBox(
                               width: 10,
                               height: 20,
                             ),
-                            SizedBox(
+                            IconButton.filled(onPressed: null, icon: Icon(Icons.question_answer, size:  48,)),
+                            const SizedBox(
+                              width: 10,
+                              height: 20,
+                            ),
+                            Text("powered by Gemini", style: cHeaderText),
+                            /* SizedBox(
                                 width: 300.0,
                                 // margin: const EdgeInsets.only(top: 25.0),
                                 child: TextFormField(
@@ -199,7 +204,7 @@ class _AppState extends State<App> {
                                     labelText: "question Gemini",
                                     // errorText: snapshot.error,
                                   ),
-                                )),
+                                )), */
                             // SizedBox(
                             //   width: 10,
                             // ),
@@ -463,36 +468,47 @@ class BottomAppBarState extends State<BottomAppBar> {
               ),
             ],
           ),
-          IconButton(
-            tooltip: cPersonal,
-            icon: const Icon(
-              Icons.home_max_sharp,
-              color: Colors.deepOrangeAccent,
+          Badge(
+            label: Text("3"),
+            child: IconButton(
+              tooltip: cPersonal,
+              icon: const Icon(
+                Icons.home_max_sharp,
+                color: Colors.deepOrangeAccent,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  '/alert',
+                );
+              },
             ),
-            onPressed: () {
-              Navigator.pushNamed(
-                context,
-                '/alert',
-              );
-            },
           ),
-          IconButton(
-            tooltip: cCommunity,
-            icon: const Icon(
-              Icons.notifications_active,
-              color: Colors.blueAccent,
+          Badge(
+            label: Text("0"),
+            child: IconButton(
+              tooltip: cCommunity,
+              icon: const Icon(
+                Icons.notifications_active,
+                color: Colors.blueAccent,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  '/alert',
+                );
+              },
             ),
-            onPressed: () {
-              Navigator.pushNamed(
-                context,
-                '/calert',
-              );
-            },
           ),
           IconButton(
             tooltip: cSearch,
             icon: const Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(
+                  context,
+                  '/alert',
+                );
+            },
           ),
           IconButton(
             tooltip: cBookmark,
