@@ -12,6 +12,7 @@ import './signin.dart';
 import './signup.dart';
 import './media.dart';
 import './history.dart';
+import './devices.dart';
 import './device.dart';
 import './alert.dart';
 import './alertc.dart';
@@ -257,6 +258,7 @@ class _AppState extends State<App> {
         SignUp.routeName: (context) => SignUp(),
         Media.routeName: (context) => Media(),
         History.routeName: (context) => History(),
+        Devices.routeName: (context) => Devices(),
         Device.routeName: (context) => Device(),
         Alert.routeName: (context) => Alert(),
         CAlert.routeName: (context) => CAlert(),
@@ -353,7 +355,7 @@ class BottomAppBarState extends State<BottomAppBar> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      '/device',
+                      '/devices',
                     );
                   },
                 ),

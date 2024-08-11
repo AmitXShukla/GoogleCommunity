@@ -22,6 +22,8 @@ The Watch App's AI engine can process and analyze visual data from images, video
     AI:             Gemini
     Location API:   Google
 
+    API KEYs : ./watchApp/api-key.dart
+
 ## Process flow
 
 ```mermaid
@@ -144,6 +146,12 @@ sankey-beta
  Gemini, Alert, 100
 ```
 
-## TODO
-- Multilanguage
-- authentication guard on data pages
+## Planned features
+- Multilanguage: add more language support
+- History: delete | retain individual chat, re-generate prompt
+- Media: delete | retain individual pic, re-generate prompt
+- SignIn: add phone auth
+- Notification: push, email, Text, Emergency
+- Gemini: feedback, auto update RAG
+- Gemini: file upload (limit per user)
+- Community: auto reset to GeoLocation

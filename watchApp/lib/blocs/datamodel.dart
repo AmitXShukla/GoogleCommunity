@@ -1,138 +1,107 @@
-// import 'dart:html';
-// import 'package:flutter/material.dart';
-
 class UserDataModel {
   String uid;
-  String userName;
   String userType;
   String name;
   String email;
   String phone;
   String address;
   String ephone1;
-  UserDataModel({required this.uid, 
-  required this.userName, required this.userType,
-  required this.name, required this.email,
-  required this.phone, required this.address,
-  required this.ephone1});
+  UserDataModel(
+      {required this.uid,
+      required this.userType,
+      required this.name,
+      required this.email,
+      required this.phone,
+      required this.address,
+      required this.ephone1});
+  factory UserDataModel.fromJson(Map<String, dynamic> json) {
+    return UserDataModel(
+      uid: json['uid'],
+      userType: json['userType'],
+      name: json['name'],
+      email: json['email'],
+      phone: json['phone'],
+      address: json['address'],
+      ephone1: json['ephone1'],
+    );
+  }
+}
+class CommunityDataModel {
+  String uid;
+  String name;
+  CommunityDataModel(
+      {required this.uid,
+      required this.name});
+  factory CommunityDataModel.fromJson(Map<String, dynamic> json) {
+    return CommunityDataModel(
+      uid: json['uid'],
+      name: json['name']
+    );
+  }
+}
+
+class DeviceDataModel {
+  String uid;
+  String type;
+  String mfg;
+  String api;
+  String license;
+  String description;
+  DeviceDataModel(
+      {required this.uid,
+      required this.type,
+      required this.mfg,
+      required this.api,
+      required this.license,
+      required this.description
+      
+      });
+  factory DeviceDataModel.fromJson(Map<String, dynamic> json) {
+    return DeviceDataModel(
+      uid: json['uid'],
+      type: json['type'],
+      mfg: json['mfg'],
+      api: json['api'],
+      license: json['license'],
+      description: json['description']
+    );
+  }
+}
+
+class PromptDataModel {
+  String uid;
+  DateTime dttm;
+  String prompt;
+  String res;
+  bool like;
+  bool unlike;
+  bool bookmark;
+  String file;
+  PromptDataModel(
+      {required this.uid,
+      required this.dttm,
+      required this.prompt,
+      required this.res,
+      required this.like,
+      required this.unlike,
+      required this.bookmark,
+      required this.file});
+  factory PromptDataModel.fromJson(Map<String, dynamic> json) {
+    return PromptDataModel(
+      uid: json['uid'],
+      dttm: json['dttm'],
+      prompt: json['prompt'],
+      res: json['res'],
+      like: json['like'],
+      unlike: json['unlike'],
+      bookmark: json['bookmark'],
+      file: json['file']
+    );
+  }
 }
 
 class LoginDataModel {
   String email;
   String password;
   LoginDataModel({required this.email, required this.password});
-}
-
-// class PromptDataModel {
-//   String prompt;
-//   String res;
-//   PromptDataModel({required this.prompt, required this.res});
-// }
-
-// class QueryModel {
-//   int counter = 0;
-//   late String dttm;
-//   final List<dynamic> data;
-//   QueryModel({required this.counter, required this.dttm, required this.data});
-//   factory QueryModel.fromJson(Map<String, dynamic> json) {
-//     return QueryModel(
-//         counter: json['counter'],
-//         dttm: json['dttm'],
-//         data: json['data']
-//             .map((value) => QueryModel.fromJson(value))
-//             .toList());
-//   }
-// }
-
-class InboxModel {
-  late String dttm;
-  String uid;
-  String to;
-  String message;
-  bool readReceipt;
-  String fileURL;
-  InboxModel({required this.dttm, required this.uid, required this.to,
-             required this.message, required this.readReceipt, required this.fileURL});
-  factory InboxModel.fromJson(Map<String, dynamic> json) {
-    return InboxModel(
-        dttm: json['dttm'],
-        uid: json['uid'],
-        to: json['to'],
-        message: json['message'],
-        readReceipt: json['readReceipt'],
-        fileURL: json['fileURL']);
-  }
-}
-
-class RideModel {
-  String objectId;
-  String uid;
-  String dttm;
-  String from;
-  String to;
-  String message;
-  String loadType;
-  String status;
-  RideModel({required this.objectId, required this.uid,
-            required this.dttm, required this.from, required this.to,
-             required this.message, required this.loadType,
-             required this.status});
-  factory RideModel.fromJson(Map<String, dynamic> json) {
-    return RideModel(
-        objectId: json['objectId'],
-        uid: json['uid'],
-        dttm: json['dttm'],
-        from: json['from'],
-        to: json['to'],
-        message: json['message'],
-        loadType: json['loadType'],
-        status: json['status']);
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['objectId'] = objectId;
-    _data['uid'] = uid;
-    _data['dttm'] = dttm;
-    _data['from'] = from;
-    _data['to'] = to;
-    _data['message'] = message;
-    _data['loadType'] = loadType;
-    _data['status'] = status;
-    return _data;
-  }
-}
-
-class BidModel {
-  String objectId;
-  String rideId;
-  String rideDttm;
-  String uid;
-  String driver;
-  String from;
-  String to;
-  String status;
-  String fileURL;
-  String bid;
-  String message;
-  BidModel({required this.objectId, required this.rideId,
-            required this.rideDttm, required this.uid, required this.driver,
-             required this.from, required this.to,
-             required this.status, required this.fileURL,
-             required this.bid, required this.message});
-  factory BidModel.fromJson(Map<String, dynamic> json) {
-    return BidModel(
-        objectId: json['objectId'],
-        rideId: json['rideId'],
-        rideDttm: json['rideDttm'],
-        uid: json['uid'],
-        driver: json['driver'],
-        from: json['from'],
-        to: json['to'],
-        status: json['status'],
-        fileURL: json['fileURL'],
-        bid: json['bid'],
-        message: json['message']
-        );
-  }
 }

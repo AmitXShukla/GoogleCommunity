@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../shared/constants.dart';
 import '../blocs/validators.dart';
 import '../blocs/datamodel.dart';
+import '../blocs/auth.bloc.dart';
 
 // ignore: must_be_immutable
 class SignUp extends StatefulWidget {
@@ -45,14 +46,10 @@ class SignUpState extends State<SignUp> {
   }
 
   void loadAuthState() async {
-    // final userState = await authBloc.isSignedIn();
-    // setState(() => isUserValid = userState);
-    // if (isUserValid) {
-    //   var username = await authBloc.getUserSettingsDoc();
-    //   if (username.isNotEmpty) {
-    //     setState(() => userType = username["userType"]);
-    //   }
-    // }
+    bool res = await authBloc.loadAuthState();
+    setState(() {
+      isUserValid = res;
+    });
   }
 
   toggleSpinner() {
@@ -69,79 +66,31 @@ class SignUpState extends State<SignUp> {
     });
   }
 
-  void login(String loginType) async {
+  void signup() async {
     toggleSpinner();
-    // ignore: prefer_typing_uninitialized_variables
-    var userAuth;
-    // if (loginType == "Google") {
-    //   userAuth = await authBloc.logInWithGoogle();
-    // } else {
-    //   userAuth = await authBloc.logInWithEmail(model);
-    // }
-
-    // if (userAuth.success) {
-    //   var res = await authBloc.setUserACLs();
-    //   if (!res) {
-    //     showMessage(true, "error", "something went wrong, user ACL is not properly set.");
-    //   }
-    //   showMessage(true, "success",
-    //       AppLocalizations.of(context)!.cMsg1);
-    //   await Future.delayed(const Duration(seconds: 1));
-    //   navigateToUser();
-    // } else {
-    //   showMessage(true, "error", userAuth.error!.message);
-    // }
-    toggleSpinner();
-  }
-
-  void navigateToUser() {
-    Navigator.pushReplacementNamed(context, '/');
-  }
-
-  void logout() async {
-    // setState(() {
-    //   model.password = "";
-    //   _passwordController.clear();
-    //   _btnEnabled = false;
-    // });
-    // toggleSpinner();
-    // var val = await authBloc.logout();
-    // if (val == true) {
-    //   showMessage(true, "success", AppLocalizations.of(context)!.cMsg2);
-    //   setState(() => isUserValid = false);
-    //   navigateToUser();
-    // } else {
-    //   showMessage(true, "error", val.error!.message);
-    // }
-    toggleSpinner();
-  }
-
-  forgotPassword() async {
-    toggleSpinner();
-    // var val = await authBloc.forgotPassword(model.email);
-    // if (val.success == true) {
-    //   showMessage(true, "success",
-    //       AppLocalizations.of(context)!.cMsg3);
-    // } else {
-    //   showMessage(
-    //       true, "error", AppLocalizations.of(context)!.cMsg4);
-    // }
+    String? userAuth = await authBloc.signupWithEmail(model);
+    if (userAuth == "success") {
+      showMessage(
+          true, "success", AppLocalizations.of(context)!.cSignupActCreated);
+    } else {
+      showMessage(true, "error", userAuth);
+    }
     toggleSpinner();
   }
 
   @override
   Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(title: Text(AppLocalizations.of(context)!.cSignIn, style: cHeaderText)),
-    body: Padding(
-      padding: const EdgeInsets.all(28.0),
-      child: SingleChildScrollView(
-        child: (isUserValid == true)
-                    ? loginPage(context)
-                    : userForm(context)
+    return Scaffold(
+      appBar: AppBar(
+          title:
+              Text(AppLocalizations.of(context)!.cSignup, style: cHeaderText)),
+      body: Padding(
+        padding: const EdgeInsets.all(28.0),
+        child: SingleChildScrollView(
+            child:
+                (isUserValid == true) ? loginPage(context) : userForm(context)),
       ),
-    ),
-  );
+    );
   }
 
   Widget userForm(BuildContext context) {
@@ -154,8 +103,12 @@ class SignUpState extends State<SignUp> {
         child: Center(
           child: Column(
             children: <Widget>[
-              Text(AppLocalizations.of(context)!.cLogin, style: cHeaderText),
-              const SizedBox(width: 10,height: 20,),
+              Text(AppLocalizations.of(context)!.cSignupTxt,
+                  style: cHeaderText),
+              const SizedBox(
+                width: 10,
+                height: 20,
+              ),
               SizedBox(
                   width: 300.0,
                   // margin: const EdgeInsets.only(top: 25.0),
@@ -236,36 +189,8 @@ class SignUpState extends State<SignUp> {
                       backgroundColor: Colors.black26,
                       child: Text("+"),
                     ),
-                    label: Text(AppLocalizations.of(context)!.cNAccount)),
+                    label: Text(AppLocalizations.of(context)!.cNNAccount)),
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 15.0),
-              ),
-              GestureDetector(
-                onTap: () {
-                  login("Google");
-                },
-                child: Chip(
-                    backgroundColor: Colors.red,
-                    // padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(15),
-                      bottomRight: Radius.circular(15),
-                      topLeft: Radius.circular(15),
-                      bottomLeft: Radius.circular(15),
-                    )),
-                    label: Text(AppLocalizations.of(context)!.cSignGoogle)),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 15.0),
-              ),
-              TextButton(
-                  onPressed: () {
-                    // forgotPassword();
-                    showAlertDialog(context);
-                  },
-                  child: Text(AppLocalizations.of(context)!.cFPassword))
             ],
           ),
         ),
@@ -275,74 +200,27 @@ class SignUpState extends State<SignUp> {
 
   Widget signinSubmitBtn(context) {
     return ElevatedButton(
-        onPressed: _btnEnabled == true ? () => login("email") : null,
-        child: Text(AppLocalizations.of(context)!.cSignIn));
-  }
-
-  showAlertDialog(BuildContext context) {
-    // set up the buttons
-    Widget cancelButton = TextButton(
-      child: const Text("Cancel"),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-    Widget continueButton = TextButton(
-      child: const Text("Continue"),
-      onPressed: () {
-        forgotPassword();
-        Navigator.pop(context);
-      },
-    );
-
-    AlertDialog alert;
-    if (model.email.toString() == "-") {
-      // set up the AlertDialog
-      alert = AlertDialog(
-        title: const Text("Please confirm"),
-        content: const Text("please enter your email and try again."),
-        actions: [
-          cancelButton,
-        ],
-      );
-    } else {
-      // set up the AlertDialog
-      alert = AlertDialog(
-        title: const Text("Please confirm"),
-        content: const Text("Would you like to continue with Reset Password ?"),
-        actions: [
-          cancelButton,
-          continueButton,
-        ],
-      );
-    }
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
+        onPressed: _btnEnabled == true ? () => signup() : null,
+        child: Text(AppLocalizations.of(context)!.cSignup));
   }
 
   Widget loginPage(BuildContext context) {
     return Center(
       child: Column(
         children: [
-          const Chip(
-              avatar: CircleAvatar(
+          Chip(
+              avatar: const CircleAvatar(
                 backgroundColor: Colors.grey,
                 child: Icon(
-                  Icons.warning,
-                  color: Colors.red,
+                  Icons.info,
+                  color: Colors.greenAccent,
                 ),
               ),
-              label: Text("please Login again, you are currently signed out.",
+              label: Text(AppLocalizations.of(context)!.cTxtReLogin,
                   style: cErrorText)),
           const SizedBox(width: 20, height: 50),
           ElevatedButton(
-            child: const Text('Login'),
+            child: Text(AppLocalizations.of(context)!.cLogin),
             // color: Colors.blue,
             onPressed: () {
               Navigator.pushNamed(

@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../shared/constants.dart';
 import '../blocs/validators.dart';
 import '../blocs/datamodel.dart';
+import '../blocs/auth.bloc.dart';
 
 // ignore: must_be_immutable
 class Settings extends StatefulWidget {
@@ -13,7 +14,7 @@ class Settings extends StatefulWidget {
 }
 
 class SettingsState extends State<Settings> {
-  bool isUserValid = true;
+  bool isUserValid = false;
   static List<String> list = <String>['individual', 'community'];
   String dropdownValue = list.first;
   bool spinnerVisible = false;
@@ -24,7 +25,6 @@ class SettingsState extends State<Settings> {
   final _formKey = GlobalKey<FormState>();
   var model = UserDataModel(
       uid: '',
-      userName: '',
       userType: '',
       name: '',
       email: '',
@@ -34,6 +34,7 @@ class SettingsState extends State<Settings> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _ephoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
 
   @override
@@ -47,45 +48,43 @@ class SettingsState extends State<Settings> {
     _nameController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
+    _ephoneController.dispose();
     _addressController.dispose();
     super.dispose();
   }
 
   void loadAuthState() async {
-    toggleSpinner();
-    // final userState = await authBloc.isSignedIn();
-    // setState(() => isUserValid = userState);
+    bool res = await authBloc.loadAuthState();
+    setState(() {
+      isUserValid = res;
+    });
     model.userType = dropdownValue;
-    // await authBloc.getUserSettingsDoc().then((res) => {
-    //       if (res != null)
-    //         {
-    //           setState(() {
-    //             model.uid = res["uid"];
-    //             model.objectId = res["objectId"];
-    //             model.name = res["name"];
-    //             _nameController.text = res["name"];
-    //             model.email = res["email"];
-    //             _emailController.text = res["email"];
-    //             model.phone = res["phone"];
-    //             _phoneController.text = res["phone"];
-    //             model.address = res["address"];
-    //             _addressController.text = res["address"];
-    //             dropdownValue = res["userType"];
-    //           })
-    //         }
-    //       else
-    //         {
-    //           setState(() {
-    //             model.objectId = "-";
-    //           })
-    //         }
-    //     });
-    // if (model.objectId != "-") {
-    //   setState(() {
-    //     fileUpload = true;
-    //   });
-    // }
-    toggleSpinner();
+    getData();
+  }
+
+  getData() async {
+    messageVisible = true;
+      if (isUserValid) {
+         await authBloc
+            .getData("settings")
+            .then((res) => setState(
+                () => updateFormData(UserDataModel.fromJson(res.data()))))
+            .catchError((error) => showMessage(
+                true, "error", error.message));
+      }
+  }
+
+  updateFormData(data) {
+    _nameController.text = data.name;
+    _emailController.text = data.email;
+    _phoneController.text = data.phone;
+    _addressController.text = data.address;
+    _ephoneController.text = data.ephone1;
+    model.name = data.name;
+    model.email = data.email;
+    model.phone = data.phone;
+    model.address = data.address;
+    model.ephone1 = data.ephone1;
   }
 
   toggleSpinner() {
@@ -102,42 +101,18 @@ class SettingsState extends State<Settings> {
     });
   }
 
-  void setData() async {
+ void setData() async {
+toggleSpinner();
+    messageVisible = true;
+    await authBloc
+        .setData('settings', model)
+        .then((res) => {showMessage(true, "success", AppLocalizations.of(context)!.cTxtSaved)})
+        .catchError((error) => {showMessage(true, "error", error.toString())});
     toggleSpinner();
-    // ignore: prefer_typing_uninitialized_variables
-    var userData;
-    model.userType = dropdownValue;
-    // userData = await authBloc.setUserSettingsDoc(model);
-    // if (userData == true) {
-    //   showMessage(true, "success", "user settings updated.");
-    //   loadAuthState();
-    // } else {
-    //   showMessage(
-    //       true, "error", "something went wrong, please contact your Admin.");
-    // }
-    toggleSpinner();
-  }
+ }
 
   void navigateToUser() {
     Navigator.pushReplacementNamed(context, '/');
-  }
-
-  void logout() async {
-    // setState(() {
-    //   model.password = "";
-    //   _passwordController.clear();
-    //   _btnEnabled = false;
-    // });
-    toggleSpinner();
-    // var val = await authBloc.logout();
-    // if (val == true) {
-    //   showMessage(true, "success", "Successfully signed out.");
-    //   setState(() => isUserValid = false);
-    //   navigateToUser();
-    // } else {
-    //   showMessage(true, "error", val.error!.message);
-    // }
-    toggleSpinner();
   }
 
   @override
@@ -232,8 +207,8 @@ class SettingsState extends State<Settings> {
                       icon: const Icon(Icons.email),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16.0)),
-                      hintText: 'EmailID *',
-                      labelText: 'emailID',
+                      hintText: AppLocalizations.of(context)!.cEMailID1,
+                      labelText: AppLocalizations.of(context)!.cEMailID2,
                       // errorText: snapshot.error,
                     ),
                   )),
@@ -258,8 +233,8 @@ class SettingsState extends State<Settings> {
                       icon: const Icon(Icons.phone),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16.0)),
-                      hintText: 'Phone *',
-                      labelText: 'phone',
+                      hintText: AppLocalizations.of(context)!.cPhone1,
+                      labelText: AppLocalizations.of(context)!.cPhone2,
                       // errorText: snapshot.error,
                     ),
                   )),
@@ -284,8 +259,8 @@ class SettingsState extends State<Settings> {
                       icon: const Icon(Icons.home_filled),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16.0)),
-                      hintText: 'Address *',
-                      labelText: 'address',
+                      hintText: AppLocalizations.of(context)!.cAddress1,
+                      labelText: AppLocalizations.of(context)!.cAddress2,
                       // errorText: snapshot.error,
                     ),
                   )),
@@ -299,12 +274,12 @@ class SettingsState extends State<Settings> {
                   width: 300.0,
                   margin: const EdgeInsets.only(top: 25.0),
                   child: TextFormField(
-                    controller: _phoneController,
+                    controller: _ephoneController,
                     cursorColor: Colors.blueAccent,
                     keyboardType: TextInputType.emailAddress,
                     maxLength: 50,
                     obscureText: false,
-                    onChanged: (value) => model.phone = value,
+                    onChanged: (value) => model.ephone1 = value,
                     validator: (value) {
                       return Validators().evalPhone(value!);
                     },
@@ -313,8 +288,8 @@ class SettingsState extends State<Settings> {
                       icon: const Icon(Icons.phone),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16.0)),
-                      hintText: 'Emergency *',
-                      labelText: 'emergency contact',
+                      hintText: AppLocalizations.of(context)!.cEContact1,
+                      labelText: AppLocalizations.of(context)!.cEContact2,
                       // errorText: snapshot.error,
                     ),
                   )),
@@ -327,7 +302,7 @@ class SettingsState extends State<Settings> {
               ),
               // signinSubmitBtn(context, authBloc),
               sendBtn(context),
-              Container(
+              /* Container(
                 margin: const EdgeInsets.only(top: 15.0),
               ),
               ElevatedButton(
@@ -336,7 +311,7 @@ class SettingsState extends State<Settings> {
                 onPressed: () {
                   logout();
                 },
-              ),
+              ), */
             ],
           ),
         ),
@@ -347,34 +322,34 @@ class SettingsState extends State<Settings> {
   Widget sendBtn(context) {
     return ElevatedButton(
         onPressed: _btnEnabled == true ? () => setData() : null,
-        child: const Text('save'));
+        child: Text(AppLocalizations.of(context)!.cBtnSave));
   }
 
   Widget loginPage(BuildContext context) {
     return Center(
       child: Column(
         children: [
-          const Chip(
-              avatar: CircleAvatar(
+          Chip(
+              avatar: const CircleAvatar(
                 backgroundColor: Colors.grey,
                 child: Icon(
                   Icons.warning,
                   color: Colors.red,
                 ),
               ),
-              label: Text("please Login again, you are currently signed out.",
+              label: Text(AppLocalizations.of(context)!.cTxtReLogin,
                   style: cErrorText)),
           const SizedBox(width: 20, height: 50),
-          ElevatedButton(
-            child: const Text('Login'),
+          /* ElevatedButton(
+            child: Text(AppLocalizations.of(context)!.cSignIn),
             // color: Colors.blue,
             onPressed: () {
               Navigator.pushNamed(
                 context,
-                '/signin',
+                '/',
               );
             },
-          ),
+          ), */
         ],
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../shared/constants.dart';
 import '../blocs/validators.dart';
 import '../blocs/datamodel.dart';
+import '../blocs/auth.bloc.dart';
 
 // ignore: must_be_immutable
 class SignIn extends StatefulWidget {
@@ -13,7 +14,6 @@ class SignIn extends StatefulWidget {
 }
 
 class SignInState extends State<SignIn> {
-  var userType = "Customer";
   bool isUserValid = false;
   bool spinnerVisible = false;
   bool messageVisible = false;
@@ -30,11 +30,11 @@ class SignInState extends State<SignIn> {
 
   @override
   void initState() {
+    super.initState();
     loadAuthState();
     model.password = "";
     _passwordController.clear();
     _btnEnabled = false;
-    super.initState();
   }
 
   @override
@@ -45,14 +45,10 @@ class SignInState extends State<SignIn> {
   }
 
   void loadAuthState() async {
-    // final userState = await authBloc.isSignedIn();
-    // setState(() => isUserValid = userState);
-    // if (isUserValid) {
-    //   var username = await authBloc.getUserSettingsDoc();
-    //   if (username.isNotEmpty) {
-    //     setState(() => userType = username["userType"]);
-    //   }
-    // }
+    bool res = await authBloc.loadAuthState();
+    setState(() {
+      isUserValid = res;
+    });
   }
 
   toggleSpinner() {
@@ -71,26 +67,20 @@ class SignInState extends State<SignIn> {
 
   void login(String loginType) async {
     toggleSpinner();
-    // ignore: prefer_typing_uninitialized_variables
-    var userAuth;
-    // if (loginType == "Google") {
-    //   userAuth = await authBloc.logInWithGoogle();
-    // } else {
-    //   userAuth = await authBloc.logInWithEmail(model);
-    // }
-
-    // if (userAuth.success) {
-    //   var res = await authBloc.setUserACLs();
-    //   if (!res) {
-    //     showMessage(true, "error", "something went wrong, user ACL is not properly set.");
-    //   }
-    //   showMessage(true, "success",
-    //       AppLocalizations.of(context)!.cMsg1);
-    //   await Future.delayed(const Duration(seconds: 1));
-    //   navigateToUser();
-    // } else {
-    //   showMessage(true, "error", userAuth.error!.message);
-    // }
+    String? userAuth;
+    if (loginType == "Google") {
+//       userAuth = await authBloc.logInWithGoogle();
+    } else {
+      userAuth = await authBloc.loginWithEmail(model);
+    }
+    if (userAuth == "success") {
+      showMessage(
+          true, "success", AppLocalizations.of(context)!.cSigninSuccess);
+      await Future.delayed(const Duration(seconds: 1));
+      loadAuthState();
+    } else {
+      showMessage(true, "error", userAuth);
+    }
     toggleSpinner();
   }
 
@@ -99,6 +89,9 @@ class SignInState extends State<SignIn> {
   }
 
   void logout() async {
+    toggleSpinner();
+    await authBloc.logout();
+    loadAuthState();
     // setState(() {
     //   model.password = "";
     //   _passwordController.clear();
@@ -131,17 +124,17 @@ class SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(title: Text(AppLocalizations.of(context)!.cSignIn, style: cHeaderText)),
-    body: Padding(
-      padding: const EdgeInsets.all(28.0),
-      child: SingleChildScrollView(
-        child: (isUserValid == true)
-                    ? loginPage(context)
-                    : userForm(context)
+    return Scaffold(
+      appBar: AppBar(
+          title:
+              Text(AppLocalizations.of(context)!.cSignIn, style: cHeaderText)),
+      body: Padding(
+        padding: const EdgeInsets.all(28.0),
+        child: SingleChildScrollView(
+            child:
+                isUserValid ? loginPage(context) : userForm(context)),
       ),
-    ),
-  );
+    );
   }
 
   Widget userForm(BuildContext context) {
@@ -155,7 +148,10 @@ class SignInState extends State<SignIn> {
           child: Column(
             children: <Widget>[
               Text(AppLocalizations.of(context)!.cLogin, style: cHeaderText),
-              const SizedBox(width: 10,height: 20,),
+              const SizedBox(
+                width: 10,
+                height: 20,
+              ),
               SizedBox(
                   width: 300.0,
                   // margin: const EdgeInsets.only(top: 25.0),
@@ -282,13 +278,13 @@ class SignInState extends State<SignIn> {
   showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: const Text("Cancel"),
+      child: Text(AppLocalizations.of(context)!.cBtnCancel),
       onPressed: () {
         Navigator.pop(context);
       },
     );
     Widget continueButton = TextButton(
-      child: const Text("Continue"),
+      child: Text(AppLocalizations.of(context)!.cBtnContinue),
       onPressed: () {
         forgotPassword();
         Navigator.pop(context);
@@ -299,8 +295,8 @@ class SignInState extends State<SignIn> {
     if (model.email.toString() == "-") {
       // set up the AlertDialog
       alert = AlertDialog(
-        title: const Text("Please confirm"),
-        content: const Text("please enter your email and try again."),
+        title: Text(AppLocalizations.of(context)!.cTxtConfirm),
+        content: Text(AppLocalizations.of(context)!.cTxtConfirmDtl),
         actions: [
           cancelButton,
         ],
@@ -308,8 +304,8 @@ class SignInState extends State<SignIn> {
     } else {
       // set up the AlertDialog
       alert = AlertDialog(
-        title: const Text("Please confirm"),
-        content: const Text("Would you like to continue with Reset Password ?"),
+        title: Text(AppLocalizations.of(context)!.cTxtConfirm),
+        content: Text(AppLocalizations.of(context)!.cTxtPswdReset),
         actions: [
           cancelButton,
           continueButton,
@@ -330,25 +326,26 @@ class SignInState extends State<SignIn> {
     return Center(
       child: Column(
         children: [
-          const Chip(
-              avatar: CircleAvatar(
+          Chip(
+              avatar: const CircleAvatar(
                 backgroundColor: Colors.grey,
                 child: Icon(
-                  Icons.warning,
-                  color: Colors.red,
+                  Icons.info,
+                  color: Colors.greenAccent,
                 ),
               ),
-              label: Text("please Login again, you are currently signed out.",
+              label: Text(AppLocalizations.of(context)!.cSigninSuccess,
                   style: cErrorText)),
           const SizedBox(width: 20, height: 50),
           ElevatedButton(
-            child: const Text('Login'),
+            child: Text(AppLocalizations.of(context)!.cSignOut),
             // color: Colors.blue,
             onPressed: () {
-              Navigator.pushNamed(
+              logout();
+              /* Navigator.pushNamed(
                 context,
                 '/signin',
-              );
+              ); */
             },
           ),
         ],
