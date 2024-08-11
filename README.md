@@ -14,7 +14,9 @@ The Watch App's AI engine can process and analyze visual data from images, video
 
 
 ## [Video Demo](https://youtube.com/@Amit.Shukla)
-## [Live App Demo](https://youtube.com/@Amit.Shukla)
+## [Live App Demo](https://amitxshukla.github.io/GoogleCommunity/)
+   username: shukla@duck.com
+   password: Password1
 
 ## Technology stack
     UI/UX:          Flutter
