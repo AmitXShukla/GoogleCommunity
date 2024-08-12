@@ -13,7 +13,7 @@ The Watch App's AI engine can process and analyze visual data from images, video
 [<img src="https://github.com/AmitXShukla/AmitXShukla.github.io/blob/master/assets/icons/twitter_1.svg" width=40 height=50>](https://x.com/@ashuklax)
 
 
-## [Video Demo](https://youtube.com/@Amit.Shukla)
+## [Video Demo](https://youtu.be/Rvt6muEW-ys)
 ## [Live App Demo](https://amitxshukla.github.io/GoogleCommunity/)
    username: shukla@duck.com
    password: Password1
