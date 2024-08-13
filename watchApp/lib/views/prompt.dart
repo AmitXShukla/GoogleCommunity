@@ -95,7 +95,7 @@ class PromptState extends State<Prompt> {
                 obscureText: false,
                 onChanged: (value) => model.prompt = value,
                 validator: (value) {
-                  return Validators().evalChar(value!);
+                  return Validators().evalChar(context, value!);
                 },
                 // onSaved: (value) => _email = value,
                 decoration: InputDecoration(

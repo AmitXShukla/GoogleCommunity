@@ -174,7 +174,7 @@ toggleSpinner();
                     obscureText: false,
                     onChanged: (value) => model.name = value,
                     validator: (value) {
-                      return Validators().evalName(value!);
+                      return Validators().evalName(context, value!);
                     },
                     // onSaved: (value) => _email = value,
                     decoration: InputDecoration(
@@ -200,7 +200,7 @@ toggleSpinner();
                     obscureText: false,
                     onChanged: (value) => model.email = value,
                     validator: (value) {
-                      return Validators().evalEmail(value!);
+                      return Validators().evalEmail(context, value!);
                     },
                     // onSaved: (value) => _email = value,
                     decoration: InputDecoration(
@@ -226,7 +226,7 @@ toggleSpinner();
                     obscureText: false,
                     onChanged: (value) => model.phone = value,
                     validator: (value) {
-                      return Validators().evalPhone(value!);
+                      return Validators().evalPhone(context, value!);
                     },
                     // onSaved: (value) => _email = value,
                     decoration: InputDecoration(
@@ -252,7 +252,7 @@ toggleSpinner();
                     obscureText: false,
                     onChanged: (value) => model.address = value,
                     validator: (value) {
-                      return Validators().evalChar(value!);
+                      return Validators().evalChar(context, value!);
                     },
                     // onSaved: (value) => _email = value,
                     decoration: InputDecoration(
@@ -281,7 +281,7 @@ toggleSpinner();
                     obscureText: false,
                     onChanged: (value) => model.ephone1 = value,
                     validator: (value) {
-                      return Validators().evalPhone(value!);
+                      return Validators().evalPhone(context, value!);
                     },
                     // onSaved: (value) => _email = value,
                     decoration: InputDecoration(

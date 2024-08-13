@@ -128,7 +128,7 @@ class CommunityState extends State<Community> {
                     obscureText: false,
                     onChanged: (value) => model.name = value,
                     validator: (value) {
-                      return Validators().evalChar(value!);
+                      return Validators().evalChar(context, value!);
                     },
                     // onSaved: (value) => _email = value,
                     decoration: InputDecoration(

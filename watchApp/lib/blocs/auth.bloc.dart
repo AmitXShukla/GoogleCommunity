@@ -249,7 +249,7 @@ class AuthBloc extends Object {
   Future getPrompt(PromptDataModel model) async {
     setData("history", model);
     if (auth.currentUser != null) {
-      return "here are the prompt results";
+      return "here are the prompt results. please see Gemini API calls are served through Firebase cloud functions and is disabled to save on costs.";
     }
   }
 }

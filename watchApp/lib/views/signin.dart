@@ -147,7 +147,7 @@ class SignInState extends State<SignIn> {
                     obscureText: false,
                     onChanged: (value) => model.email = value,
                     validator: (value) {
-                      return Validators().evalEmail(value!);
+                      return Validators().evalEmail(context, value!);
                     },
                     // onSaved: (value) => _email = value,
                     decoration: InputDecoration(
@@ -173,7 +173,7 @@ class SignInState extends State<SignIn> {
                     obscureText: true,
                     onChanged: (value) => model.password = value,
                     validator: (value) {
-                      return Validators().evalPassword(value!);
+                      return Validators().evalPassword(context, value!);
                     },
                     decoration: InputDecoration(
                       icon: const Icon(Icons.lock_outline),

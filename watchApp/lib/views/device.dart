@@ -179,7 +179,7 @@ class DeviceState extends State<Device> {
                     obscureText: false,
                     onChanged: (value) => model.mfg = value,
                     validator: (value) {
-                      return Validators().evalCharSmall(value!);
+                      return Validators().evalCharSmall(context, value!);
                     },
                     // onSaved: (value) => _email = value,
                     decoration: InputDecoration(
@@ -205,7 +205,7 @@ class DeviceState extends State<Device> {
                     obscureText: false,
                     onChanged: (value) => model.api = value,
                     validator: (value) {
-                      return Validators().evalCharSmall(value!);
+                      return Validators().evalCharSmall(context, value!);
                     },
                     // onSaved: (value) => _email = value,
                     decoration: InputDecoration(
@@ -231,7 +231,7 @@ class DeviceState extends State<Device> {
                     obscureText: false,
                     onChanged: (value) => model.license = value,
                     validator: (value) {
-                      return Validators().evalCharSmall(value!);
+                      return Validators().evalCharSmall(context, value!);
                     },
                     // onSaved: (value) => _email = value,
                     decoration: InputDecoration(
@@ -257,7 +257,7 @@ class DeviceState extends State<Device> {
                     obscureText: false,
                     onChanged: (value) => model.description = value,
                     validator: (value) {
-                      return Validators().evalCharSmall(value!);
+                      return Validators().evalCharSmall(context, value!);
                     },
                     // onSaved: (value) => _email = value,
                     decoration: InputDecoration(

@@ -292,7 +292,8 @@ class BottomAppBar extends StatefulWidget {
 
 class BottomAppBarState extends State<BottomAppBar> {
   bool isBright = true;
-  static List<String> lang = <String>['english', 'español', '中国人', 'हिंदी'];
+  /* static List<String> lang = <String>['english', 'español', '中国人', 'हिंदी']; */
+  static List<String> lang = <String>['english', 'español'];
   String dropdownValue = lang.first;
 
   @override
@@ -502,7 +503,7 @@ class BottomAppBarState extends State<BottomAppBar> {
           ),
           IconButton(
             tooltip: cSearch,
-            icon: const Icon(Icons.search),
+            icon: const Icon(Icons.snooze_outlined),
             onPressed: () {
               Navigator.pushNamed(
                   context,

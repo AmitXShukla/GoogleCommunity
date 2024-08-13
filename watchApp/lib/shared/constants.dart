@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 const cAppTitle = "community watch";
 const cSettings = "settings";
 const cPersonal = "personal";
-const cSearch = "search";
+const cSearch = "snooze";
 const cBookmark = "bookmark";
 const cGemini = "Gemini";
 const cHistory = "history";
