@@ -152,10 +152,12 @@ sankey-beta
 - Multilanguage: add more language support
 - History: delete | retain individual chat, re-generate prompt
 - Media: delete | retain individual pic, re-generate prompt
-- SignIn: add phone auth
-- Notification: push, email, Text, Emergency
+- SignIn: add phone authentication
+- Notification: push, email, Text, Emergency, Badge
 - Gemini: feedback, auto update RAG
 - Gemini: file upload (limit per user)
 - Community: auto complete to current GeoLocation | google Location API
+- update API key (user to upload their own keys)
+- update Alert, Community Alert, Snooze, Bookmark functionality
 
 ![preview](./banner.png)
